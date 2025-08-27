@@ -1,0 +1,14 @@
+[build]
+builder = "NIXPACKS"
+
+[build.nixpacksConfig]
+start_cmd = "npm start"
+
+[deploy]
+startCommand = "npm run kct:setup && npm start"
+
+[environments.production.variables]
+NODE_ENV = "production"
+WORKER_MODE = "shared"
+PORT = "9000"
+HOST = "0.0.0.0"
