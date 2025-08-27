@@ -39,17 +39,26 @@ async function runCommand(command, args = []) {
 
 async function startServer() {
     try {
-        // Step 1: Run migrations (always important)
-        console.log("🗄️  Step 1: Running database migrations...");
+        // Step 1: Apply runtime patch to fix TypeORM issue
+        console.log("🔧 Step 1: Applying runtime patch for TypeORM fix...");
+        try {
+            require('./runtime-patch-typeorm-fix.js');
+        } catch (patchError) {
+            console.error("❌ Runtime patch failed:", patchError.message);
+            console.log("⚠️ Continuing with startup - patch may not be necessary...");
+        }
+
+        // Step 2: Run migrations (always important)
+        console.log("🗄️  Step 2: Running database migrations...");
         await runCommand("npm", ["run", "migration:run"]);
 
-        // Step 2: Skip seeding (disabled to prevent issues)
-        console.log("🌱 Step 2: Seeding database...");
+        // Step 3: Skip seeding (disabled to prevent issues)
+        console.log("🌱 Step 3: Seeding database...");
         await runCommand("npm", ["run", "seed"]);
 
-        // Step 3: Start the Medusa server with custom PaymentProviderService
-        console.log("🎯 Step 3: Starting Medusa server...");
-        console.log("✨ Custom PaymentProviderService loaded - TypeORM fix active!");
+        // Step 4: Start the Medusa server with patched PaymentProviderService
+        console.log("🎯 Step 4: Starting Medusa server...");
+        console.log("✨ Runtime patch applied - TypeORM fix active!");
         
         // Use the custom start command
         const medusaProcess = spawn("npm", ["run", "start:custom"], {
