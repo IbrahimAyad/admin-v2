@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
 console.log("🚀 Starting KCT Menswear Backend with database fixes...");
+console.log("🔍 Debug: Current working directory:", process.cwd());
+console.log("🔍 Debug: Node version:", process.version);
+console.log("🔍 Debug: Environment:", process.env.NODE_ENV || 'not set');
 
 const { spawn } = require("child_process");
 const path = require("path");
@@ -51,8 +54,8 @@ async function startServer() {
         console.log("🎯 Step 4: Starting Medusa server...");
         console.log("🔥 All fixes applied - launching Medusa!");
         
-        // Use spawn to start medusa and keep it running
-        const medusaProcess = spawn("npm", ["run", "start"], {
+        // Use the custom start command to avoid TypeORM issues
+        const medusaProcess = spawn("npm", ["run", "start:custom"], {
             stdio: "inherit",
             shell: true
         });
