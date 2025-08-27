@@ -12,7 +12,7 @@
     "railway"
   ],
   "scripts": {
-    "build": "medusa build",
+    "build": "echo 'Medusa v1 - no build step required'",
     "seed": "medusa seed -f ./data/seed.ts",
     "start": "medusa start",
     "start:custom": "node --preserve-symlinks --trace-warnings index.js",
