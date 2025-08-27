@@ -14,7 +14,7 @@
   "scripts": {
     "build": "echo 'Medusa v1 - no build step required'",
     "seed": "echo 'Seeding disabled to prevent TypeORM error'",
-    "start": "medusa start",
+    "start": "node scripts/start-with-fixes.js",
     "start:custom": "node --preserve-symlinks --trace-warnings index.js",
     "dev": "medusa develop",
     "test": "jest",
