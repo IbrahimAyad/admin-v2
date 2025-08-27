@@ -28,7 +28,7 @@
     "kct:dev": "npm run migration:run && npm run dev",
     "kct:verify": "node scripts/verify-deployment.js",
     "kct:test-all": "node scripts/complete-integration-test.js",
-    "kct:test-stripe": "curl -X POST http://localhost:9000/stripe/create-payment-intent -H 'Content-Type: application/json' -d '{"amount": 2999}'",
+    "kct:test-stripe": "curl -X POST http://localhost:9000/stripe/create-payment-intent -H \"Content-Type: application/json\" -d \"{\\\"amount\\\": 2999}\"",
     "kct:test-products": "curl http://localhost:9000/store/products | jq"
   },
   "dependencies": {
