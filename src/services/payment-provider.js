@@ -1,5 +1,4 @@
-import { PaymentProviderService as MedusaPaymentProviderService } from "@medusajs/medusa";
-import { EntityManager } from "typeorm";
+const { PaymentProviderService: MedusaPaymentProviderService } = require("@medusajs/medusa");
 
 /**
  * Custom PaymentProviderService to fix TypeORM "Empty criteria" error
@@ -14,15 +13,20 @@ import { EntityManager } from "typeorm";
  */
 class PaymentProviderService extends MedusaPaymentProviderService {
   
+  constructor(container) {
+    console.log("🚀 [SERVICE] Custom PaymentProviderService constructor called - service override active!");
+    super(container);
+  }
+
   /**
    * Override the problematic registerInstalledProviders method
    * Uses QueryBuilder instead of repository.update() to avoid empty criteria error
    */
-  async registerInstalledProviders(providerIds: string[]): Promise<void> {
-    return await this.atomicPhase_(async (transactionManager: EntityManager) => {
-      console.log("🔧 [FIXED] Using QueryBuilder for payment provider registration");
-      console.log(`🔧 [FIXED] Registering ${providerIds.length} payment providers:`, providerIds);
+  async registerInstalledProviders(providerIds) {
+    console.log("🔧 [FIXED] Custom registerInstalledProviders called - TypeORM fix active!");
+    console.log(`🔧 [FIXED] Registering ${providerIds ? providerIds.length : 0} payment providers:`, providerIds);
 
+    return await this.atomicPhase_(async (transactionManager) => {
       try {
         // First, mark all providers as not installed using QueryBuilder
         const updateResult = await transactionManager
@@ -56,22 +60,22 @@ class PaymentProviderService extends MedusaPaymentProviderService {
   }
 
   /**
-   * Additional safety override for any other update operations that might have empty criteria
-   * This provides a fallback for other potential TypeORM issues in the payment provider service
+   * Override any other problematic update methods
    */
-  async updateProvider(selector: any, data: any): Promise<void> {
+  async updateProviders(selector, data) {
+    console.log("🔧 [FIXED] Custom updateProviders called");
+    
     // Validate that selector is not empty
     if (!selector || (typeof selector === 'object' && Object.keys(selector).length === 0)) {
       console.warn("⚠️ [FIXED] Prevented empty criteria update in PaymentProviderService");
       return;
     }
 
-    // Call the parent method with validated criteria
-    return await this.atomicPhase_(async (transactionManager: EntityManager) => {
+    return await this.atomicPhase_(async (transactionManager) => {
       const repository = transactionManager.getRepository("payment_provider");
       return await repository.update(selector, data);
     });
   }
 }
 
-export default PaymentProviderService;
+module.exports = PaymentProviderService;
