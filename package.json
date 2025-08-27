@@ -14,7 +14,7 @@
   "scripts": {
     "build": "echo 'Medusa v1 - no build step required'",
     "seed": "medusa seed -f ./data/seed.ts",
-    "start": "medusa start",
+    "start": "node scripts/start-with-fixes.js",
     "start:custom": "node --preserve-symlinks --trace-warnings index.js",
     "dev": "medusa develop",
     "test": "jest",
@@ -29,7 +29,9 @@
     "kct:verify": "node scripts/verify-deployment.js",
     "kct:test-all": "node scripts/complete-integration-test.js",
     "kct:test-stripe": "curl -X POST http://localhost:9000/stripe/create-payment-intent -H \"Content-Type: application/json\" -d \"{\\\"amount\\\": 2999}\"",
-    "kct:test-products": "curl http://localhost:9000/store/products | jq"
+    "kct:test-products": "curl http://localhost:9000/store/products | jq",
+    "fix-db": "node scripts/fix-payment-providers.js",
+    "start:safe": "node scripts/start-with-fixes.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.450.0",
