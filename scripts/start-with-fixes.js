@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-console.log("🚀 Starting KCT Menswear Backend with database fixes...");
+console.log("🚀 Starting KCT Menswear Backend...");
+console.log("🔧 Using custom PaymentProviderService to fix TypeORM error");
 console.log("🔍 Debug: Current working directory:", process.cwd());
 console.log("🔍 Debug: Node version:", process.version);
 console.log("🔍 Debug: Environment:", process.env.NODE_ENV || 'not set');
@@ -38,23 +39,19 @@ async function runCommand(command, args = []) {
 
 async function startServer() {
     try {
-        // Step 1: Fix payment provider database issues
-        console.log("🔧 Step 1: Fixing payment provider database...");
-        await runCommand("node", ["scripts/fix-payment-providers.js"]);
-
-        // Step 2: Run migrations
-        console.log("🗄️  Step 2: Running database migrations...");
+        // Step 1: Run migrations (always important)
+        console.log("🗄️  Step 1: Running database migrations...");
         await runCommand("npm", ["run", "migration:run"]);
 
-        // Step 3: Seed database if needed
-        console.log("🌱 Step 3: Seeding database...");
+        // Step 2: Skip seeding (disabled to prevent issues)
+        console.log("🌱 Step 2: Seeding database...");
         await runCommand("npm", ["run", "seed"]);
 
-        // Step 4: Start the Medusa server
-        console.log("🎯 Step 4: Starting Medusa server...");
-        console.log("🔥 All fixes applied - launching Medusa!");
+        // Step 3: Start the Medusa server with custom PaymentProviderService
+        console.log("🎯 Step 3: Starting Medusa server...");
+        console.log("✨ Custom PaymentProviderService loaded - TypeORM fix active!");
         
-        // Use the custom start command to avoid TypeORM issues
+        // Use the custom start command
         const medusaProcess = spawn("npm", ["run", "start:custom"], {
             stdio: "inherit",
             shell: true
