@@ -13,7 +13,7 @@ import { PaymentProviderService as MedusaPaymentProviderService } from "@medusaj
  */
 class PaymentProviderService extends MedusaPaymentProviderService {
   
-  constructor(container) {
+  constructor(container: any) {
     console.log("🚀 [SERVICE] Custom PaymentProviderService constructor called - service override active!");
     super(container);
   }
@@ -22,7 +22,7 @@ class PaymentProviderService extends MedusaPaymentProviderService {
    * Override the problematic registerInstalledProviders method
    * Uses QueryBuilder instead of repository.update() to avoid empty criteria error
    */
-  async registerInstalledProviders(providerIds) {
+  async registerInstalledProviders(providerIds?: string[]): Promise<void> {
     console.log("🔧 [FIXED] Custom registerInstalledProviders called - TypeORM fix active!");
     console.log(`🔧 [FIXED] Registering ${providerIds ? providerIds.length : 0} payment providers:`, providerIds);
 
@@ -62,7 +62,7 @@ class PaymentProviderService extends MedusaPaymentProviderService {
   /**
    * Override any other problematic update methods
    */
-  async updateProviders(selector, data) {
+  async updateProviders(selector: any, data: any): Promise<any> {
     console.log("🔧 [FIXED] Custom updateProviders called");
     
     // Validate that selector is not empty
