@@ -1,4 +1,4 @@
-const { PaymentProviderService: MedusaPaymentProviderService } = require("@medusajs/medusa");
+import { PaymentProviderService as MedusaPaymentProviderService } from "@medusajs/medusa";
 
 /**
  * Custom PaymentProviderService to fix TypeORM "Empty criteria" error
@@ -78,4 +78,4 @@ class PaymentProviderService extends MedusaPaymentProviderService {
   }
 }
 
-module.exports = PaymentProviderService;
+export default PaymentProviderService;
