@@ -5,7 +5,7 @@ builder = "NIXPACKS"
 start_cmd = "npm start"
 
 [deploy]
-startCommand = "npm run kct:setup && npm start"
+startCommand = "npm start"
 
 [environments.production.variables]
 NODE_ENV = "production"
