@@ -22,14 +22,13 @@
     "migration:revert": "medusa migrations revert",
     "migration:show": "medusa migrations show",
     "migration:generate": "medusa migrations generate",
-    "prepare": "husky install",
     "postinstall": "medusa telemetry --enable || true",
     "kct:setup": "npm run migration:run && npm run seed",
     "kct:reset": "npm run migration:run && npm run seed",
     "kct:dev": "npm run migration:run && npm run dev",
     "kct:verify": "node scripts/verify-deployment.js",
     "kct:test-all": "node scripts/complete-integration-test.js",
-    "kct:test-stripe": "curl -X POST http://localhost:9000/stripe/create-payment-intent -H 'Content-Type: application/json' -d '{\"amount\": 2999}'",
+    "kct:test-stripe": "curl -X POST http://localhost:9000/stripe/create-payment-intent -H 'Content-Type: application/json' -d '{"amount": 2999}'",
     "kct:test-products": "curl http://localhost:9000/store/products | jq"
   },
   "dependencies": {
@@ -72,7 +71,6 @@
     "babel-preset-medusa-package": "^1.1.19",
     "cross-env": "^7.0.3",
     "eslint": "^6.8.0",
-    "husky": "^8.0.3",
     "jest": "^27.3.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.0.7",
